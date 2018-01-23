@@ -1,26 +1,64 @@
+import com.testunit.Helper.Helper;
 import com.testunit.db.DataHelper;
-import com.testunit.goods.AlcoholDrink;
 
-import java.util.ArrayList;
+
+import java.util.*;
 
 public class ShopOperations {
     private static ShopOperations shopOperations;
     private ArrayList goods = new ArrayList();
+    private Calendar calendar;
 
 
-    public static void main(String[] args) {
-        shopOperations = new ShopOperations();
+
+    public static void main(String[] args) throws InterruptedException {
+        /*shopOperations = new ShopOperations();
         shopOperations.goods = DataHelper.getGoodsFromCSVFile();
+        shopOperations.calendar = new GregorianCalendar();
 
-        AlcoholDrink ad = new AlcoholDrink("40%");
-        ad.setName("Водка");
-        ad.setPurchasePrice(Float.parseFloat("86.50"));
-        ad.setClassification("Mendeleev Drink");
-        ad.setVolume("0.5");
-        ad.setExistenceOfPiece(Integer.parseInt("186"));
+        shopOperations.firstRun();
+        shopOperations.run();
 
-        shopOperations.goods.add(ad);
+        DataHelper.updateDataBase(shopOperations.goods);*/
+        shopOperations = new ShopOperations();
+        shopOperations.calendar = new GregorianCalendar();
+       shopOperations.firstRun();
 
-        DataHelper.updateDataBase(shopOperations.goods);
+
+
+    }
+
+
+    private boolean chekcWorkingTime(int i) {
+        if(i >= 8 && i<21){
+            return true;
+        }
+        return false;
+    }
+
+
+    private void run(){
+        if(chekcWorkingTime(calendar.get(Calendar.HOUR_OF_DAY))){
+
+        }
+    }
+
+    private void firstRun(){
+        int numbersCustomersPerHours = Helper.random(9) + 1;
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
