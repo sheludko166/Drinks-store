@@ -7,5 +7,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public interface Strategy {
-    void runStrategy(ArrayList<Customer> listCustomers, GregorianCalendar calendar, ArrayList<? extends BasicDrink> goods);
+    void runStrategy(ArrayList<Customer> listCustomers, GregorianCalendar calendar,
+                     ArrayList<? extends BasicDrink> goods, ArrayList endedGoods);
 }
+

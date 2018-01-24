@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class EqualTimeStrategy implements Strategy {
+public class EqualTimeStrategy extends BasicStrategy implements Strategy {
 
 
     @Override
-    public void runStrategy(ArrayList<Customer> listCustomers, GregorianCalendar calendar, ArrayList<? extends BasicDrink> goods) {
+    public void runStrategy(ArrayList<Customer> listCustomers, GregorianCalendar calendar, ArrayList<? extends BasicDrink> goods, ArrayList endedGoods) {
         System.out.println("This is " + EqualTimeStrategy.class.getName());
         int secondsPerHour = 3600;
         int timeOrderCustomers = secondsPerHour / listCustomers.size();
@@ -19,14 +19,34 @@ public class EqualTimeStrategy implements Strategy {
         for(Customer customer : listCustomers){
             calendar.add(Calendar.SECOND, timeOrderCustomers);
             System.out.println(customer.getClass().getSimpleName() + customer.getId() + " зашел в магазин " + calendar.getTime());
-            customer.fillOrderList(goods);
-            ArrayList list = customer.getOrderList();
-            if(list.size() > 0 && list.size() < 3){
-                System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил больше 2 напитков!");
+            customer.fillOrderList(goods, endedGoods);
+            ArrayList orderList = customer.getOrderList();
+
+            if(orderList.size() > 0){
+                if(isSalesTime(calendar)){
+                    buyAtSalesTime(orderList);
+                }
+                else if(isWeekend(calendar)){
+                    buYOnTheWeekend(orderList);
+                }
+                else {
+                    buyNoSalesTime(orderList);
+                }
+            /*if(list.size() > 0 && list.size() < 3){
+                if(isSalesTime(calendar)){
+                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил 1 - 2 товара! Распродажа");
+                }else{
+                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил 1 - 2 товара!");
+                }
             }else if (list.size() >= 3){
-                System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил 1 - 2 товара!");
+                if(isSalesTime(calendar)){
+                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил больше 2 напитков! Распродажа");
+                }else {
+                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил больше 2 напитков!");
+                }*/
+
             }else{
-                System.out.println(customer.getClass().getSimpleName() + customer.getId() + " некупил");
+                System.out.println(customer.getClass().getSimpleName() + customer.getId() + " некупил!");
             }
         }
 

@@ -28,11 +28,17 @@ public class Customer {
         this.orderList = order;
     }
 
-    public void fillOrderList(ArrayList<? extends BasicDrink> goods) {
+    public void fillOrderList(ArrayList<? extends BasicDrink> goods, ArrayList endedGoods) {
         int countOfGoods = Helper.random(10);
-        for (;countOfGoods > 0; countOfGoods--){
+        while (countOfGoods > 0 && goods.size() > 0){
             int i = Helper.random(goods.size() - 1);
-            orderList.add(goods.get(i));
+            if(goods.get(i).getExistenceOfPiece() > 0){
+                orderList.add(goods.get(i));
+                countOfGoods--;
+            }else {
+                endedGoods.add(goods.get(i));
+                goods.remove(i);
+            }
         }
     }
 

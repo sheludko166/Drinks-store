@@ -12,6 +12,7 @@ import java.util.*;
 public class ShopOperations {
     private static ShopOperations shopOperations;
     private ArrayList goods = new ArrayList();
+    private ArrayList endedGoods = new ArrayList();
     private Calendar calendar;
     private Strategy strategy;
 
@@ -28,12 +29,10 @@ public class ShopOperations {
         shopOperations.calendar = setBeginDate();
 
         while (!shopOperations.emulationFinished()) {
-            System.out.println("========================= DAY" + shopOperations.workingDay + " ================================");
+            System.out.println("========================= DAY " + shopOperations.workingDay + " ================================");
             shopOperations.run();
         }
 
-        //shopOperations.run();
-        //shopOperations.run();
 
 
         //DataHelper.updateDataBase(shopOperations.goods);
@@ -60,15 +59,15 @@ public class ShopOperations {
             if(chekcWorkingTime(calendar.get(Calendar.HOUR_OF_DAY))){
                 switch (Helper.random(2)){
                     case 0: strategy = new EqualTimeStrategy();
-                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods);
+                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods, endedGoods);
                         break;
 
                     case 1: strategy = new HybridEqualsAndRandomStrategy();
-                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods);
+                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods, endedGoods);
                         break;
 
                     case 2: strategy = new RandomTimeStrategy();
-                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods);
+                        strategy.runStrategy(getCustomersList(), (GregorianCalendar) calendar.clone(), goods, endedGoods);
                         break;
 
                 }
@@ -99,7 +98,7 @@ public class ShopOperations {
     }
 
     private static GregorianCalendar setBeginDate(){
-        return new GregorianCalendar(2018,2,1,0,0);
+        return new GregorianCalendar(2018,2,3,0,0);
     }
 }
 

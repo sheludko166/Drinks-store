@@ -8,6 +8,25 @@ public class BasicDrink {
     private String volume;
     private int existenceOfPiece;
     private int markUp;
+    private int additionalGoods;
+    private int saleCount;
+
+    public int getAdditionalGoods() {
+        return additionalGoods;
+    }
+
+    public int getSaleCount() {
+        return saleCount;
+    }
+
+    public void addSaleCount(){
+        this.saleCount++;
+    }
+
+    public void AddAdditionalGoods(){
+        this.additionalGoods += 150;
+        this.existenceOfPiece += 150;
+    }
 
     public String getName() {
         return name;
