@@ -1,10 +1,9 @@
 import com.testunit.Customer.Customer;
-import com.testunit.EmulationStrategy.EqualTimeStrategy;
-import com.testunit.EmulationStrategy.HybridEqualsAndRandomStrategy;
-import com.testunit.EmulationStrategy.RandomTimeStrategy;
-import com.testunit.EmulationStrategy.Strategy;
+import com.testunit.EmulationStrategy.*;
 import com.testunit.Helper.Helper;
 import com.testunit.db.DataHelper;
+import com.testunit.goods.BasicDrink;
+import com.testunit.statistics.Statistic;
 
 
 import java.util.*;
@@ -15,18 +14,23 @@ public class ShopOperations {
     private ArrayList endedGoods = new ArrayList();
     private Calendar calendar;
     private Strategy strategy;
+    private static Statistic statistic;
 
     private int workingDay = 1;
     private int workingPeriod = 30;
     private int openingTime = 8;
     private int closingTime = 21;
 
-
+    public ShopOperations(Statistic statistic) {
+        this.statistic = statistic;
+    }
 
     public static void main(String[] args) throws InterruptedException {
-        shopOperations = new ShopOperations();
+        statistic = new Statistic();
+        shopOperations = new ShopOperations(statistic);
         shopOperations.goods = DataHelper.getGoodsFromCSVFile();
         shopOperations.calendar = setBeginDate();
+
 
         while (!shopOperations.emulationFinished()) {
             System.out.println("========================= DAY " + shopOperations.workingDay + " ================================");
@@ -34,8 +38,12 @@ public class ShopOperations {
         }
 
 
+        System.out.println(String.format("%.2f", statistic.getProfit()));
 
-        //DataHelper.updateDataBase(shopOperations.goods);
+
+
+
+        DataHelper.updateDataBase(shopOperations.goods);
 
 
 
@@ -55,7 +63,8 @@ public class ShopOperations {
         if(emulationFinished()){
             return;
         }
-        for(int i =0; i <24; i++){
+
+        for(int i = calendar.get(Calendar.HOUR_OF_DAY); i <24; i++){
             if(chekcWorkingTime(calendar.get(Calendar.HOUR_OF_DAY))){
                 switch (Helper.random(2)){
                     case 0: strategy = new EqualTimeStrategy();
@@ -73,8 +82,24 @@ public class ShopOperations {
                 }
             }
             addOneHour();
+            if(calendar.get(Calendar.HOUR_OF_DAY ) == 21){
+                purchaseGoods(goods, endedGoods);
+            }
         }
 
+    }
+
+    private void purchaseGoods(ArrayList<? extends BasicDrink> goods, ArrayList<? extends BasicDrink> endedGoods) {
+        for(int i = 0; i < goods.size(); i++){
+            if (goods.get(i).getExistenceOfPiece() < 10) {
+                goods.get(i).AddAdditionalGoods();
+            }
+        }
+        while (endedGoods.size() > 0){
+            endedGoods.get(endedGoods.size() - 1).AddAdditionalGoods();
+            this.goods.add(endedGoods.get(endedGoods.size() - 1));
+            this.endedGoods.remove(endedGoods.size() - 1);
+        }
     }
 
     private boolean emulationFinished() {

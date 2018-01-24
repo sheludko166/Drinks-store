@@ -1,15 +1,22 @@
 package com.testunit.goods;
 
+import com.testunit.statistics.Statistic;
+
 public class BasicDrink {
 
     private String name;
-    private float purchasePrice;
+    private double purchasePrice;
     private String classification;
     private String volume;
     private int existenceOfPiece;
     private int markUp;
     private int additionalGoods;
     private int saleCount;
+
+    public void buy(){
+        saleCount++;
+        existenceOfPiece--;
+    }
 
     public int getAdditionalGoods() {
         return additionalGoods;
@@ -19,13 +26,10 @@ public class BasicDrink {
         return saleCount;
     }
 
-    public void addSaleCount(){
-        this.saleCount++;
-    }
-
     public void AddAdditionalGoods(){
-        this.additionalGoods += 150;
-        this.existenceOfPiece += 150;
+        int count = 150;
+        this.additionalGoods += count;
+        this.existenceOfPiece += count;
     }
 
     public String getName() {
@@ -36,11 +40,11 @@ public class BasicDrink {
         this.name = name;
     }
 
-    public float getPurchasePrice() {
+    public double getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(float purchasePrice) {
+    public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
@@ -75,4 +79,5 @@ public class BasicDrink {
     public void setMarkUp(int markUp) {
         this.markUp = markUp;
     }
+
 }

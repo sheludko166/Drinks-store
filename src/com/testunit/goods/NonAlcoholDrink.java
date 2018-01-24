@@ -14,4 +14,6 @@ public class NonAlcoholDrink extends BasicDrink{
     public void setComposition(String composition) {
         this.composition = composition;
     }
+
+
 }

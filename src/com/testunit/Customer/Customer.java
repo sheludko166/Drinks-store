@@ -33,6 +33,7 @@ public class Customer {
         while (countOfGoods > 0 && goods.size() > 0){
             int i = Helper.random(goods.size() - 1);
             if(goods.get(i).getExistenceOfPiece() > 0){
+                goods.get(i).buy();
                 orderList.add(goods.get(i));
                 countOfGoods--;
             }else {

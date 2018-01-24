@@ -4,6 +4,7 @@ import com.testunit.Customer.Customer;
 import com.testunit.Helper.Helper;
 import com.testunit.goods.BasicDrink;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -14,15 +15,18 @@ public class RandomTimeStrategy extends BasicStrategy implements Strategy {
 
         System.out.println("This is " + RandomTimeStrategy.class.getName());
         int secondsPerHour = 3600;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         for(Customer customer : listCustomers){
             int timeOrderCustomers = Helper.random(secondsPerHour);
             secondsPerHour -= timeOrderCustomers;
             calendar.add(Calendar.SECOND, timeOrderCustomers);
-            System.out.println(customer.getClass().getSimpleName() + customer.getId() + " зашел в магазин " + calendar.getTime());
+            System.out.println(customer.getClass().getSimpleName() + customer.getId() + " зашел в магазин "
+                    + sdf.format(calendar.getTime()));
             customer.fillOrderList(goods, endedGoods);
             ArrayList orderList = customer.getOrderList();
 
             if(orderList.size() > 0){
+                System.out.println("Купил:");
                 if(isSalesTime(calendar)){
                     buyAtSalesTime(orderList);
                 }
@@ -32,22 +36,9 @@ public class RandomTimeStrategy extends BasicStrategy implements Strategy {
                 else {
                     buyNoSalesTime(orderList);
                 }
-            /* if(orderList.size() > 0 && orderList.size() < 3){
-                if(isSalesTime(calendar)){
-                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил 1 - 2 товара! Распродажа");
-                }else{
-                    buyNoSalesTime(orderList, calendar);
-                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил 1 - 2 товара!");
-                }
-            }else if (orderList.size() >= 3){
-                if(isSalesTime(calendar)){
-                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил больше 2 напитков! Распродажа");
-                }else {
-                    System.out.println(customer.getClass().getSimpleName() + customer.getId() + " купил больше 2 напитков!");
-                }*/
 
             }else{
-                System.out.println(customer.getClass().getSimpleName() + customer.getId() + " некупил!");
+                System.out.println("Ничего некупил!");
             }
 
         }

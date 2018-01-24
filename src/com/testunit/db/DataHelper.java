@@ -23,7 +23,7 @@ public class DataHelper {
                 if (s.endsWith("%")) {
                     AlcoholDrink ad = new AlcoholDrink(s);
                     ad.setName(nextLine[0]);
-                    ad.setPurchasePrice(Float.parseFloat(nextLine[1]));
+                    ad.setPurchasePrice(Double.parseDouble(nextLine[1]));
                     ad.setClassification(nextLine[2]);
                     ad.setVolume(nextLine[3]);
                     ad.setExistenceOfPiece(Integer.parseInt(nextLine[5]));
@@ -46,12 +46,12 @@ public class DataHelper {
         return list;
     }
     public static void updateDataBase(ArrayList<? extends BasicDrink> goods){
-        try (CSVWriter writer = new CSVWriter(new FileWriter("data.csv"),';')) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter("data1.csv"),';')) {
 
             for(int i = 0; i < goods.size(); i++ ){
                 String[] line = new String[6];
                 line[0] = goods.get(i).getName();
-                line[1] = String.valueOf(goods.get(i).getPurchasePrice());
+                line[1] = String.valueOf(String.format("%.2f",goods.get(i).getPurchasePrice()));
                 line[2] = goods.get(i).getClassification();
                 line[3] = goods.get(i).getVolume();
                 if(goods.get(i) instanceof AlcoholDrink){
