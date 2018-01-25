@@ -9,6 +9,4 @@ public class Helper {
     public static int random(int i){
         return (int) Math.round(Math.random() * i);
     }
-
-
 }

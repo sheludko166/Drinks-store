@@ -4,15 +4,19 @@ import com.testunit.Customer.Customer;
 import com.testunit.goods.AlcoholDrink;
 import com.testunit.goods.BasicDrink;
 import com.testunit.statistics.Statistic;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class BasicStrategy implements Strategy {
+
+    private static final Logger logger = LogManager.getLogger(BasicStrategy.class);
     @Override
     public void runStrategy(ArrayList<Customer> listCustomers, GregorianCalendar calendar, ArrayList<? extends BasicDrink> goods, ArrayList endedGoods) {
-        System.out.println("This is Basic Strategy!");
+        logger.debug("This is Basic Strategy!");
     }
 
     protected  boolean isSalesTime(GregorianCalendar calendar) {
@@ -37,14 +41,13 @@ public class BasicStrategy implements Strategy {
             double salePrice;
             if(i > 1){
                 salePrice = purchasePrice * 1.07;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - наценка согласно товаров больше двух...");
             }else {
                 salePrice = purchasePrice * 1.1;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - стандартная наценка...");
             }
-
             Statistic.addProfit(salePrice - purchasePrice);
         }
     }
@@ -55,14 +58,13 @@ public class BasicStrategy implements Strategy {
             double salePrice;
             if(i > 1){
                 salePrice = purchasePrice * 1.07;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - наценка согласно товаров больше двух...");
             }else {
                 salePrice = purchasePrice * 1.08;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - наценка вечернего времени...");
             }
-
             Statistic.addProfit(salePrice - purchasePrice);
         }
     }
@@ -73,14 +75,13 @@ public class BasicStrategy implements Strategy {
             double salePrice;
             if(i > 1){
                 salePrice = purchasePrice * 1.07;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - наценка согласно товаров больше двух...");
             }else {
                 salePrice = purchasePrice * 1.15;
-                System.out.println(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
+                logger.debug(orderList.get(i).getClassification() + " " + orderList.get(i).getName() + " стоимость: "
                         + String.format("%.2f", salePrice) + " - наценка выходного дня...");
             }
-
             Statistic.addProfit(salePrice - purchasePrice);
         }
     }

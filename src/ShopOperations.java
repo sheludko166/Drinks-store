@@ -4,6 +4,8 @@ import com.testunit.Helper.Helper;
 import com.testunit.db.DataHelper;
 import com.testunit.goods.BasicDrink;
 import com.testunit.statistics.Statistic;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.util.*;
@@ -15,7 +17,7 @@ public class ShopOperations {
     private Calendar calendar;
     private Strategy strategy;
     private static Statistic statistic;
-
+    private static final Logger logger = LogManager.getLogger(ShopOperations.class);
     private int workingDay = 1;
     private int workingPeriod = 30;
     private int openingTime = 8;
@@ -31,23 +33,14 @@ public class ShopOperations {
         shopOperations.goods = DataHelper.getGoodsFromCSVFile();
         shopOperations.calendar = setBeginDate();
 
-
         while (!shopOperations.emulationFinished()) {
-            System.out.println("========================= DAY " + shopOperations.workingDay + " ================================");
+            logger.debug("========================= DAY " + shopOperations.workingDay + " ================================");
             shopOperations.run();
         }
 
-
-        System.out.println(String.format("%.2f", statistic.getProfit()));
-
-
-
+        statistic.printStatistics(shopOperations.goods);
 
         DataHelper.updateDataBase(shopOperations.goods);
-
-
-
-
     }
 
 
@@ -86,7 +79,6 @@ public class ShopOperations {
                 purchaseGoods(goods, endedGoods);
             }
         }
-
     }
 
     private void purchaseGoods(ArrayList<? extends BasicDrink> goods, ArrayList<? extends BasicDrink> endedGoods) {
@@ -126,17 +118,3 @@ public class ShopOperations {
         return new GregorianCalendar(2018,2,3,0,0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

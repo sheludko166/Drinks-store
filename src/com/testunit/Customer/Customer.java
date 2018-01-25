@@ -19,7 +19,6 @@ public class Customer {
         return id;
     }
 
-
     public ArrayList getOrderList() {
         return orderList;
     }
@@ -42,5 +41,4 @@ public class Customer {
             }
         }
     }
-
 }

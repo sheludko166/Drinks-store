@@ -9,7 +9,6 @@ public class BasicDrink {
     private String classification;
     private String volume;
     private int existenceOfPiece;
-    private int markUp;
     private int additionalGoods;
     private int saleCount;
 
@@ -30,6 +29,7 @@ public class BasicDrink {
         int count = 150;
         this.additionalGoods += count;
         this.existenceOfPiece += count;
+        Statistic.addSpentMoney(count * purchasePrice);
     }
 
     public String getName() {
@@ -71,13 +71,4 @@ public class BasicDrink {
     public void setExistenceOfPiece(int existenceOfPiece) {
         this.existenceOfPiece = existenceOfPiece;
     }
-
-    public int getMarkUp() {
-        return markUp;
-    }
-
-    public void setMarkUp(int markUp) {
-        this.markUp = markUp;
-    }
-
 }
